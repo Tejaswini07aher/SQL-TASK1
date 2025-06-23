@@ -1,0 +1,187 @@
+2. Identify Entities and Relationships
+Entity	Attributes
+Customers	customer_id (PK), name, email, phone
+Products	product_id (PK), name, price, stock
+Orders	order_id (PK), customer_id (FK), order_date
+Order_Items	order_id (FK), product_id (FK), quantity
+
+
+
+
+
+
+1.What is normalization?
+-> Normalization is the process of organizing data in a database to reduce redundancy and
+improve data integrity. It involves dividing large tables into smaller related tables and defining
+relationships between them.
+Key Features:
+Reduces data redundancy
+Improves data consistency
+Simplifies data maintenance
+Increases data integrity
+Types of Normalization:
+1NF (First Normal Form) – Eliminates duplicate columns and ensures each column contains
+atomic values.
+1.
+2NF (Second Normal Form) – Ensures no partial dependency by making all non-key
+attributes fully dependent on the primary key.
+2.
+3NF (Third Normal Form) – Removes transitive dependencies where non-key columns
+depend on other non-key columns.
+3.
+4.BCNF (Boyce-Codd Normal Form) – Ensures that every determinant is a candidate key.
+
+
+question 2. Explain primary vs foreign key.
+-> A Primary Key is a column (or a combination of columns) that uniquely identifies each record in a table.
+Unique: No two rows can have the same primary key value.
+Not Null: A primary key cannot have NULL values.
+Each table can have only one primary key.
+Example:
+sql
+Copy
+Edit
+CREATE TABLE Customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100)
+);
+
+A Foreign Key is a column that refers to the primary key of another table. It is used to create relationships between tables.
+It ensures referential integrity — you can't insert a value in the foreign key column unless it exists in the parent table.
+You can have multiple foreign keys in a table.
+It allows duplicates and NULLs unless otherwise restricted.
+Example:
+sql
+Copy
+Edit
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+
+
+
+question 3.What are constraints?
+Constraints are rules applied to columns in a table to control the type of data that can be inserted. They ensure accuracy, validity, and integrity of the data.
+Common Types of SQL Constraints
+Constraint	Description
+PRIMARY KEY	Uniquely identifies each record. Cannot be NULL or duplicate.
+FOREIGN KEY	Links records between two tables. Maintains referential integrity.
+NOT NULL	Prevents NULL values in a column.
+UNIQUE	Ensures all values in a column are different.
+CHECK	Ensures values meet a specific condition.
+DEFAULT	Assigns a default value if none is provided.
+
+
+
+
+question 4.What is a surrogate key?
+->
+A surrogate key is a fake ID created by the database to uniquely identify each row in a table. It has no real meaning, it's just a number (like 1, 2, 3...) given to each record automatically.
+ creating a table of students. Each student has a name, email, and phone number. But names and emails can change or might not be unique.
+So instead of using a name or email to identify each student, we let the database give each student a unique number — like a roll number in school. That number is the surrogate key.
+Example in SQL:
+sql
+Copy
+Edit
+CREATE TABLE Students (
+    student_id INT PRIMARY KEY AUTO_INCREMENT,  -- surrogate key
+    name VARCHAR(100),
+    email VARCHAR(100)
+);
+
+
+question 5.How do you avoid data redundancy?
+->Data redundancy means storing the same data in multiple places, which can lead to:
+Wasted storage
+Inconsistent data
+Difficult updates
+You can avoid data redundancy by normalizing your database, which means organizing data into separate related tables. Use primary and foreign keys to link data instead of repeating it. This keeps the database clean, efficient, and easier to update.
+
+
+
+
+question 6.What is ER diagram?
+->
+
+An ER Diagram (Entity-Relationship Diagram)** is a visual way to represent the structure of a database. It shows how different parts of the data (called **entities**) relate to each other using **relationships**.
+* Think of it like a **blueprint** for your database.
+* It helps you **plan** before actually creating tables in SQL.
+Key Components:
+Entities** – Things you want to store data about (like Customer, Product).
+Attributes** – Details about entities (like Name, Age for Customer).
+Relationships** – How entities are connected (like a Customer *places* an Order).
+
+### Example:
+If you're designing a database for a library:
+
+* Entities: `Book`, `Member`, `Loan`
+* Relationships: A `Member` *borrows* a `Book`.
+ER diagrams make it easier to **understand, design, and communicate** your database structure before writing SQL code.
+
+
+question 7 What are the types of relationships in DBMS?
+
+->Types of Relationships in DBMS (Simple Format)
+
+1. One-to-One (1:1)**
+    One record in a table is linked to **one** record in another table.
+   *Example:* Each person has one passport.
+
+2. One-to-Many (1\:N)**
+   One record in a table can be linked to **many** records in another table.
+   *Example:* One customer can place many orders.
+
+3. Many-to-One (N:1)**
+    Many records in a table link to **one** record in another table.
+   *Example:* Many employees work in one department.
+
+4. Many-to-Many (M\:N)**
+    Many records in one table relate to many in another (needs a third table).
+   *Example:* Students can enroll in many courses, and each course has many students.
+
+Let me know if you want visual examples!
+
+
+question 8.Explain the purpose of AUTO_INCREMENT
+AUTO_INCREMENT is used to automatically generate a unique number for a column every time a new row is inserted into a table.
+Why use it?
+Saves you from manually entering ID numbers.
+
+Ensures each record gets a unique identifier (like 1, 2, 3…).
+
+Commonly used for Primary Keys.
+
+
+quetions 9.What is the default storage engine in MySQL?
+->🛠️ What is the Default Storage Engine in MySQL?
+The default storage engine in MySQL is InnoDB.
+Why InnoDB?
+Supports transactions (like undo/rollback)
+Ensures data integrity with foreign key constraints
+Faster and safer for large, real-world applications
+Crash recovery features
+InnoDB is like the "brain" MySQL uses to store and manage your data safely and efficiently — it’s the default because it’s reliable and powerful.
+Let me know if you want to compare it with other engines like MyISAM!
+
+
+
+
+
+question 10.What is a composite key?
+
+-> A composite key is a primary key made up of two or more columns that together uniquely identify a row in a table.
+A composite key is a combination of two or more columns in a table that together uniquely identify a row. It is used when a single column is not enough to uniquely distinguish records.
+Example:
+sql
+Copy
+Edit
+CREATE TABLE Enrollments (
+    student_id INT,
+    course_id INT,
+    enrollment_date DATE,
+    PRIMARY KEY (student_id, course_id)  -- Composite Key);
+
